@@ -6,9 +6,9 @@ import Select from '@material-ui/core/Select';
 import FormControl from '@material-ui/core/FormControl';
 import MenuItem from '@material-ui/core/MenuItem';
 
-type TConverterBlock = {
+interface TConverterBlock {
 	classes: any;
-};
+}
 
 const ConverterBlock: React.FC<TConverterBlock> = ({ classes }) => (
 	<Paper className={classes.paper}>
