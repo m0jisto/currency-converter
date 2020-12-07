@@ -17,8 +17,6 @@ const ConverterBlock: React.FC<IConverterBlock> = observer(({ classes }) => {
 	const { items } = cryptoStore!.getAllItems;
 	const { firstSelect, secondSelect } = converterStore.getSelectedCoin;
 
-	console.log(JSON.stringify(firstSelect), JSON.stringify(secondSelect));
-
 	const stringIsNumber = (num: string): boolean => isNaN(Number(num));
 
 	const onSelectFirstCoin = (name: any) => converterStore!.setSelectedFirstCoin(name);
