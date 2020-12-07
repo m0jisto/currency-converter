@@ -13,7 +13,6 @@ const useStyles = makeStyles((theme: Theme) =>
 		cryptoInputBox: {
 			display: 'flex',
 			justifyContent: 'space-between',
-			alignItems: 'center',
 			margin: '10px 0 20px',
 		},
 		cryptoIcon: {
@@ -21,11 +20,24 @@ const useStyles = makeStyles((theme: Theme) =>
 			height: 20,
 			borderRadius: '100%',
 		},
+		tableRow: {
+			cursor: 'pointer',
+			transition: '0.5s all',
+			'&:hover': {
+				textDecoration: 'underline',
+			},
+		},
 		currencyName: {
 			minWidth: '50%',
 		},
 		currencyType: {
 			minWidth: '30%',
+		},
+		columnUp: {
+			backgroundColor: '#d8ffc4',
+		},
+		columnDown: {
+			backgroundColor: '#ffdada',
 		},
 	}),
 );

@@ -1,20 +1,47 @@
 import axios from 'axios';
 import { makeAutoObservable } from 'mobx';
-import { TCoin } from '../types';
-
+import { converterStore } from '.';
+import { TCoin, TDiffCoin } from '../types';
 export default class CryptoStore {
+	private items: TCoin[] = [];
+	private diffItems: TDiffCoin = {};
+
 	constructor() {
 		makeAutoObservable(this);
 	}
 
-	public items: TCoin[] = [];
-
-	get getItems() {
-		return this.items;
+	get getAllItems() {
+		return {
+			items: this.items,
+			diffItems: this.diffItems,
+		};
 	}
 
-	setItems = (items: TCoin[]): void => {
-		this.items = items;
+	isEqualObject = (prevObj: TCoin[], nextObj: TCoin[]): boolean =>
+		JSON.stringify(prevObj) !== JSON.stringify(nextObj);
+
+	comparisonItems = (prevItem: TCoin, nextItem: TCoin): string => {
+		if (prevItem.price > nextItem.price) {
+			return 'columnDown';
+		} else if (prevItem.price < nextItem.price) {
+			return 'columnUp';
+		}
+
+		return '';
+	};
+
+	setAllItems = (newItems: TCoin[]): void => {
+		if (this.isEqualObject(this.items, newItems)) {
+			this.diffItems = this.items.reduce((diffObj: TDiffCoin, item, index) => {
+				diffObj[item.name] = this.comparisonItems(item, newItems[index]);
+
+				return diffObj;
+			}, {});
+			this.items = newItems;
+			converterStore.setSelectedFirstCoin(newItems[0].name);
+			converterStore.setSelectedSecondCoin(newItems[1].name);
+			setTimeout(() => (this.diffItems = {}), 5000);
+		}
 	};
 
 	fetchCoins = (): void => {
@@ -31,8 +58,7 @@ export default class CryptoStore {
 					};
 					return obj;
 				});
-
-				this.setItems(coins);
+				this.setAllItems(coins);
 			});
 	};
 }
