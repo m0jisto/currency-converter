@@ -19,9 +19,12 @@ const ConverterBlock: React.FC<IConverterBlock> = observer(({ classes }) => {
 
 	const stringIsNumber = (num: string): boolean => isNaN(Number(num));
 
-	const onSelectFirstCoin = (name: any) => converterStore!.setSelectedFirstCoin(name);
-	const onSelectSecondCoin = (name: any) => converterStore!.setSelectedSecondCoin(name);
-	const onChangeValueCoin = (value: any) => converterStore.setValue(value);
+	const onSelectFirstCoin = (event: any) => converterStore.setSelectedSecondCoin(event.target.value);
+
+	const onSelectSecondCoin = (event: any) => converterStore.setSelectedSecondCoin(event.target.value);
+
+	const onChangeValueCoin = (event: React.ChangeEvent<HTMLInputElement>): void =>
+		converterStore.setValue(event.target.value);
 
 	return (
 		<Paper className={classes.paper}>
@@ -31,7 +34,7 @@ const ConverterBlock: React.FC<IConverterBlock> = observer(({ classes }) => {
 						id="standard-basic-1"
 						label="Сумма"
 						value={firstSelect.value}
-						onChange={(e) => onChangeValueCoin(e.target.value)}
+						onChange={onChangeValueCoin}
 					/>
 				</FormControl>
 				<FormControl className={classes.currencyType}>
@@ -40,7 +43,7 @@ const ConverterBlock: React.FC<IConverterBlock> = observer(({ classes }) => {
 						id="demo-simple-select-1"
 						labelId="demo-simple-select-label-1"
 						value={firstSelect.name || ''}
-						onChange={(e) => onSelectFirstCoin(e.target.value)}
+						onChange={onSelectFirstCoin}
 					>
 						{items.map((item, index) => (
 							<MenuItem key={`${item.name}_${index}`} value={item.name}>
@@ -69,7 +72,7 @@ const ConverterBlock: React.FC<IConverterBlock> = observer(({ classes }) => {
 						id="demo-simple-select-2"
 						labelId="demo-simple-select-label-2"
 						value={secondSelect.name || ''}
-						onChange={(e) => onSelectSecondCoin(e.target.value)}
+						onChange={onSelectSecondCoin}
 					>
 						<MenuItem value="USD">USD</MenuItem>
 						{items.map((item, index) => (
